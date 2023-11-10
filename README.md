@@ -74,7 +74,26 @@ INNER JOIN customer AS c
 GROUP BY active;
 ```
 
+## Aggregating strings
 
+You are planning to update your storefront window to demonstrate how family-friendly and multi-lingual your DVD collection is. To prepare for this you need to prepare a comma-separated list G-rated film titles by language released in 2010.
+
+•	Return a column with a list of comma-separated film titles by using the STRING_AGG() function.
+
+•	Limit the results to films that have a release_year of 2010 AND have a rating of 'G'.
+
+•	Ensure that the operation is grouped by the language name.
+
+```sql
+SELECT name, 
+  string_agg(title, ',') AS film_titles
+FROM film AS f
+INNER JOIN language AS l
+  ON f.language_id = l.language_id
+WHERE release_year=2010
+  AND rating = 'G'
+GROUP BY name;
+```
 
 
 
