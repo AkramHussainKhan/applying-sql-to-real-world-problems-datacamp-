@@ -51,7 +51,7 @@ SELECT payment_date,
 FROM payment;
 ```
 
-## Aggregating finances
+### Aggregating finances
 
 In this exercise you would like to learn more about the differences in payments between the customers who are active and those who are not.
 
@@ -74,7 +74,7 @@ INNER JOIN customer AS c
 GROUP BY active;
 ```
 
-## Aggregating strings
+### Aggregating strings
 
 You are planning to update your storefront window to demonstrate how family-friendly and multi-lingual your DVD collection is. To prepare for this you need to prepare a comma-separated list G-rated film titles by language released in 2010.
 
@@ -94,6 +94,58 @@ WHERE release_year=2010
   AND rating = 'G'
 GROUP BY name;
 ```
+
+**How much does this business make per month?**
+```sql
+SELECT EXTRACT(MONTH FROM payment_date) AS month, 
+       SUM(amount) AS total_payment
+FROM payment 
+GROUP BY month;
+```
+## Find the data
+
+**View all of the data in the information_schema.columns table by SELECTing all the columns within it.**
+
+•	Limit your results to only the columns you need: table_name and column_name.
+
+•	Filter the results where the table_schema is public.
+
+```sql
+SELECT table_name,column_name
+FROM information_schema.columns
+Where table_schema = 'public';
+```
+
+
+**Calculate the average_length for each category**
+```sql
+SELECT category, 
+     avg(length) AS average_length
+FROM film AS f
+-- Join the tables film & category
+INNER JOIN category AS c
+  ON f.film_id = c.film_id
+GROUP BY c.category
+-- Sort the results in ascending order by length
+order by average_length desc;
+```
+
+**Which films are most frequently rented?**
+```sql
+SELECT title, COUNT(title)
+FROM film AS f
+INNER JOIN inventory AS i
+  ON f.film_id = i.film_id
+INNER JOIN rental AS r
+  ON i.inventory_id = r.inventory_id
+GROUP BY title
+ORDER BY count DESC;
+```
+
+
+
+
+
 
 
 
