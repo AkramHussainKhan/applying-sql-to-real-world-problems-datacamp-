@@ -142,25 +142,44 @@ GROUP BY title
 ORDER BY count DESC;
 ```
 
+**Write a query to select all records & column from the film table which have a rating of G or PG.
+Save the results of the query in a new table named family_films.**
 
+```sql
+Create table family_films as
+SELECT *
+FROM film
+WHERE rating IN ('G', 'PG');
+```
 
+## Store data
 
+**Update the price of rentals**
 
+You just learned that there have been some updates for the rental pricing of your films. In this exercise you will leverage the UPDATE command to modify the rental prices by increasing the rental_rate with the following logic.
 
+All films now cost 50 cents more to rent.
 
+R Rated films will go up by an additional 1 dollar.
+```sql
+UPDATE film
+SET rental_rate = rental_rate+0.5;
+UPDATE film
+SET rental_rate = rental_rate+1
+Where rating = 'R';
+```
 
+The rental company is running a promotion and needs you to lower the rental costs by 1 dollar of films who star the actors/actresses with the following last names: WILLIS, CHASE, WINSLET, GUINESS, HUDSON.
 
-
-
-
-
-
-
-
-
-
-
-
+```sql
+update film
+set rental_rate = rental_rate-1
+where film_id in 
+  (SELECT film_id from actor AS a
+   INNER JOIN film_actor AS f
+      ON a.actor_id = f.actor_id
+   WHERE last_name IN ('WILLIS', 'CHASE', 'WINSLET', 'GUINESS', 'HUDSON'));
+```
 
 
 
