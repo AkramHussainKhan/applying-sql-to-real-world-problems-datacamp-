@@ -181,6 +181,106 @@ where film_id in
    WHERE last_name IN ('WILLIS', 'CHASE', 'WINSLET', 'GUINESS', 'HUDSON'));
 ```
 
+### Delete selected records
+You've discovered that some films are just not worth keeping your inventory, for cases where the replacement_cost is greater than 25 dollars. As such you'd like to remove them from you film table.
+```sql
+-- Delete films that cost most than 25 dollars
+Delete from film
+where replacement_cost >25;
+```
+
+### A family friendly video store
+Your company has decided to become a family friendly store. As such, all R & NC-17 movies will be cleared from the inventory. You will take the steps necessary to clear these films from both the inventory and the film tables.
+```sql
+-- Use the list of film_id values to DELETE all R & NC-17 rated films from inventory.
+delete from inventory
+where film_id IN (
+  SELECT film_id FROM film
+  WHERE rating IN ('R', 'NC-17')
+);
+
+-- Delete records from the `film` table that are either rated as R or NC-17.
+delete from film
+where rating IN ('R', 'NC-17');
+```
+## Best practices
+### Fix this query - intent
+Using the four opportunities you've identified you will now clarify the intent of this query, one step at a time.
+```sql
+SELECT x1.customer_id, x1.rental_date, x1.return_date 
+FROM rental x1
+JOIN inventory x2
+    ON x1.inventory_id = x2.inventory_id
+JOIN film x3
+    ON x2.film_id = x3.film_id
+WHERE x3.length < 90;
+```
+And the answer is:
+```sql
+SELECT r.customer_id, r.rental_date, r.return_date 
+FROM rental AS r
+/* inventory table is used to unite the rental and film */ 
+INNER JOIN inventory AS i
+  ON r.inventory_id = i.inventory_id
+INNER JOIN film AS f
+  ON i.film_id = f.film_id
+WHERE f.length < 90;
+```
+
+
+**Make this query easier to read  PART I**
+
+```sql
+SELECT title, rating FROM film 
+WHERE rating = 'G' OR rating = 'PG' OR rating = 'R';
+```
+And the answer is
+
+```sql
+SELECT title, 
+rating 
+FROM film 
+WHERE
+rating IN ('G', 'PG', 'R');
+```
+
+**Make this query easier to read - Part II**
+
+In this exercise you will work on making the query below easier to read.
+```sql
+select 
+  category as FILMCATEGORY, 
+  avg(length) as AverageLength
+from film as f
+inner join category as c
+  on f.film_id = c.film_id
+where release_year >= 2005
+  and release_year <= 2010
+group by category;
+```
+
+### Apply best practices to your code
+
+In this exercise you will update the code below to adhere to the best practices you learned in this chapter.
+```sql
+SELECT first_name, last_name, email FROM rental AS r 
+-- FROM address AS a JOIN r.address_id = a.address_id
+JOIN customer AS c ON r.customer_id = c.customer_id;
+```
+And the answer i s
+```sql
+SELECT first_name, 
+       last_name, 
+       email 
+FROM rental AS r 
+INNER JOIN customer AS c 
+   ON r.customer_id = c.customer_id;
+```
+
+
+Overall this is a nice course.
+[course link](https://campus.datacamp.com/courses/applying-sql-to-real-world-problems/use-real-world-sql?ex=1)
+
 
 
 
