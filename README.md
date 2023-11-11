@@ -1,6 +1,6 @@
 # applying-sql-to-real-world-problems-datacamp-
 
-## Practice the essentials <br>
+## 1. Practice the essentials <br>
 
 **In this exercise you are preparing list of your top paying active customers. The data you will need are the names of the customer sorted by the amount they paid.** <br>
 
@@ -102,7 +102,7 @@ SELECT EXTRACT(MONTH FROM payment_date) AS month,
 FROM payment 
 GROUP BY month;
 ```
-## Find the data
+## 2. Find the data
 
 **View all of the data in the information_schema.columns table by SELECTing all the columns within it.**
 
@@ -152,7 +152,7 @@ FROM film
 WHERE rating IN ('G', 'PG');
 ```
 
-## Store data
+## 3. Store data
 
 **Update the price of rentals**
 
@@ -203,7 +203,7 @@ where film_id IN (
 delete from film
 where rating IN ('R', 'NC-17');
 ```
-## Best practices
+## 4. Best practices
 ### Fix this query - intent
 Using the four opportunities you've identified you will now clarify the intent of this query, one step at a time.
 ```sql
